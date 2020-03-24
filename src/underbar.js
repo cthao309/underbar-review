@@ -215,6 +215,17 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    let isTrueVal = true;
+
+    let iteratorExists = arguments.length === 2;
+
+    _.each(collection, function(element){
+      if(iteratorExists && !iterator(element)){
+        isTrueVal = false;
+        return isTrueVal;
+      }
+    })
+    return isTrueVal;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
