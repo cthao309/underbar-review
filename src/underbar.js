@@ -419,6 +419,16 @@
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+    let resultArray = collection.sort((a, b) => {
+      if(typeof iternator === 'string') {
+        return a.iterator - b.iterator;
+      } else {
+        return a - b;
+      }
+    });
+
+    return resultArray;
+
   };
 
    // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -426,6 +436,7 @@
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -433,17 +444,21 @@
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {
+  _.zip = function(...params) {
     let resultArray = [];
 
-    console.log('testing')
+    console.log('zip => ', params, resultArray, arguments)
 
-    const parameters = Array.prototype.slice.call(oncePerUniqueArgumentList, 2)
+    let index = 0;
+    let incrementer = 0;
+    let paramsLength = params.length;
 
-    console.log('zip => ', parameters, resultArray)
+    while(index < params[0].length) {
+      if(incrementer <= paramsLength) {
+        incrementer++;
+      }
 
-    for(let i = 0; i < parameters[0].length; i++) {
-      resultArray.push([parameters[0][i], parameters[1][i]])
+      //push into the resultArray container
     }
 
     return resultArray;
