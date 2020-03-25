@@ -6,9 +6,8 @@
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
-  _.identity = function(val) {
-    return val;
-  };
+  _.identity = (val) => val;
+
 
   /**
    * COLLECTIONS
@@ -31,13 +30,13 @@
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
-  _.first = function(array, n) {
+  _.first = (array, n) => {
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
-  _.last = function(array, n) {
+  _.last = (array, n) => {
     if(n === undefined) {
       return array[array.length - 1];
     } else {
@@ -50,7 +49,7 @@
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
-  _.each = function(collection, iterator) {
+  _.each = (collection, iterator) => {
     if(Array.isArray(collection)) {
       for(let i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
@@ -64,13 +63,13 @@
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function(array, target) {
+  _.indexOf = (array, target) => {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
 
-    _.each(array, function(item, index) {
+    _.each(array, (item, index) => {
       if (item === target && result === -1) {
         result = index;
       }
@@ -344,6 +343,13 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    const memo = {};
+
+    return function() {
+      let serialize = JSON.stringify(arguments);
+
+      return memo[serialize] = memo[serialize] || func.apply(this, arguments);
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -353,6 +359,11 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    const parameters = Array.prototype.slice.call(arguments, 2);
+
+    return setTimeout(function() {
+      func.apply(this, parameters);
+    }, wait);
   };
 
 
@@ -367,6 +378,21 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    const newArray = [...array];
+
+    const result = [];
+
+    function randomizes() {
+      let index = Math.floor(Math.random() * newArray.length);
+
+      return newArray.splice(index, 1)[0];
+    }
+
+    while(newArray.length > 0) {
+      result.push(randomizes())
+    }
+
+    return result;
   };
 
 
