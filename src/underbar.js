@@ -407,6 +407,11 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    return _.map(collection, function(item) {
+      let method = typeof functionOrKey === 'function' ?  functionOrKey : item[functionOrKey];
+
+      return method.apply(item, args)
+    })
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -416,20 +421,35 @@
   _.sortBy = function(collection, iterator) {
   };
 
+   // Takes a multidimensional array and converts it to a one-dimensional array.
+  // The new array should contain all elements of the multidimensional array.
+  //
+  // Hint: Use Array.isArray to check if something is an array
+  _.flatten = function(nestedArray, result) {
+  };
+
   // Zip together two or more arrays with elements of the same index
   // going together.
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    let resultArray = [];
+
+    console.log('testing')
+
+    const parameters = Array.prototype.slice.call(oncePerUniqueArgumentList, 2)
+
+    console.log('zip => ', parameters, resultArray)
+
+    for(let i = 0; i < parameters[0].length; i++) {
+      resultArray.push([parameters[0][i], parameters[1][i]])
+    }
+
+    return resultArray;
   };
 
-  // Takes a multidimensional array and converts it to a one-dimensional array.
-  // The new array should contain all elements of the multidimensional array.
-  //
-  // Hint: Use Array.isArray to check if something is an array
-  _.flatten = function(nestedArray, result) {
-  };
+
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
