@@ -271,7 +271,6 @@
         var isEven = function(num) { return num % 2 === 0; };
         var odds = _.reject([1, 2, 3, 4, 5, 6], isEven);
 
-        console.log('spec "reject => ', odds)
         expect(odds).to.eql([1, 3, 5]);
       });
 

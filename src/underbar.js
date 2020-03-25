@@ -215,23 +215,37 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    let isTrueVal = true;
+    if(iterator === undefined || iterator === null) {
+      iterator = _.identity;
+    }
 
-    let iteratorExists = arguments.length === 2;
-
-    _.each(collection, function(element){
-      if(iteratorExists && !iterator(element)){
-        isTrueVal = false;
-        return isTrueVal;
+    let result = _.reduce(collection, function(passed, item){
+      if(!passed){
+        return false;
       }
-    })
-    return isTrueVal;
+
+      return !!iterator(item);
+    }, true)
+
+
+    return result;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if(iterator === undefined || iterator === null) {
+      iterator = _.identity;
+    }
+
+    for(let i = 0; i < collection.length; i++){
+      if(iterator(collection[i])){
+        return true;
+      }
+    }
+    return false;
+
   };
 
 
@@ -254,11 +268,40 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    // argument = [{a: 1}, {b:2, a: 3}, {c: 3}] => (logics) => {a: 1, b: 2, c: 3}
+
+    const combineObj = function(newObj) {
+      for(let key in newObj) {
+        obj[key] = newObj[key];
+      }
+    }
+
+    // _.extend({a: 1}, {b:2, a: 3}, {c: 3})
+    for( let i = 1; i < arguments.length; i++ ){
+      let newObj = arguments[i]; // {b: 2}
+      combineObj(newObj);
+    }
+
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+
+    const combineObj = function(newObj){
+      for(let key in newObj){
+        if(!obj.hasOwnProperty(key)){
+          obj[key] = newObj[key];
+        }
+      }
+    }
+
+    for(let i = 1; i < arguments.length; i++){
+      let newObj = arguments[i];
+      combineObj(newObj);
+    }
+    return obj;
   };
 
 
